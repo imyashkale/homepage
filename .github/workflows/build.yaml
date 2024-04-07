@@ -21,12 +21,12 @@ jobs:
 
       - name: Extract metadata for the Docker image
         id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        uses: docker/metadata-action@v5.5.1
         with:
           images: imyashkale/homepage
 
       - name: Build and push the Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        uses: docker/build-push-action@v5.3.0
         with:
           context: .
           push: true
