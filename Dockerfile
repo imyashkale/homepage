@@ -16,6 +16,8 @@ WORKDIR /app
 
 ENV GIN_MODE=release
 
+COPY ./templates /app/templates
+
 COPY --from=build /app/homepage .
 
 EXPOSE 80
