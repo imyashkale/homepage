@@ -21,7 +21,7 @@ jobs:
 
       - name: Get current version from Docker Hub
         id: get_version
-        run: echo "::set-output name=version::$(docker run --rm -i imyashkale/homepage:latest version)"
+        run: echo "::set-output name=version::$(docker run --rm -i imyashkale/homepage:master version)"
 
       - name: Increment version
         id: increment_version
