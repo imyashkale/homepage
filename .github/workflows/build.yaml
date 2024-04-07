@@ -34,5 +34,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            imyashkale/homepage:${{ steps.use_commit_tag.outputs.tag }} imyashkale/homepage:latest
+            imyashkale/homepage:${{ steps.use_commit_tag.outputs.tag }}
 
