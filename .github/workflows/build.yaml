@@ -19,20 +19,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Get commit tag
-        id: get_commit_tag
-        run: echo "::set-output name=tag::$(git describe --tags --exact-match ${{ github.sha }} || echo '')"
+      - name: Extract metadata for the Docker image
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: imyashkale/homepage
 
-      - name: Use commit tag for image tagging
-        id: use_commit_tag
-        run: echo "::set-output name=tag::${{ steps.get_commit_tag.outputs.tag }}"
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5.3.0
+      - name: Build and push the Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          file: ./Dockerfile
           push: true
-          tags: |
-            imyashkale/homepage:${{ steps.use_commit_tag.outputs.tag }}
-
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
