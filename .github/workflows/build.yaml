@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  push_to_registry:
+  build:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
@@ -19,16 +19,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Extract metadata for the Docker image
-        id: meta
-        uses: docker/metadata-action@v5.5.1
-        with:
-          images: imyashkale/homepage
-
       - name: Build and push the Docker image
         uses: docker/build-push-action@v5.3.0
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: imyashkale/homepage:latest
+
+      - name: Tag Docker image as git tag
+        run: docker tag imyashkale/homepage:latest imyashkale/homepage:${{ github.ref }}
+
+      - name: Push the tagged Docker image
+        run: docker push imyashkale/homepage:${{ github.ref }}
